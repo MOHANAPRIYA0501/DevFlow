@@ -9,6 +9,7 @@ import com.devflow.auth.dto.AuthResponse;
 import com.devflow.auth.dto.LoginRequest;
 import com.devflow.auth.dto.RegisterRequest;
 import com.devflow.auth.entity.User;
+import com.devflow.auth.jwt.JwtService;
 import com.devflow.auth.repository.UserRepository;
 
 @Service
@@ -16,13 +17,15 @@ public class AuthService {
 
     private final UserRepository userRepository;
      private final PasswordEncoder passwordEncoder;
+private final JwtService jwtService;
 
-    public AuthService(UserRepository userRepository,
-                       PasswordEncoder passwordEncoder) {
-        this.userRepository = userRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
-
+  public AuthService(UserRepository userRepository,
+                   PasswordEncoder passwordEncoder,
+                   JwtService jwtService) {
+    this.userRepository = userRepository;
+    this.passwordEncoder = passwordEncoder;
+    this.jwtService = jwtService;
+}
    public AuthResponse register(RegisterRequest request) {
 
     if (userRepository.existsByEmail(request.getEmail())) {
@@ -54,8 +57,9 @@ public AuthResponse login(LoginRequest request) {
         throw new RuntimeException("Invalid email or password");
     }
 
-    // JWT will be added later
-    return new AuthResponse("Login successful", null);
+   String token = jwtService.generateToken(user.getEmail());
+
+return new AuthResponse("Login successful", token);
 }
 
 
