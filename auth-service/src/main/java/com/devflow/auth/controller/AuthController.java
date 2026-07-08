@@ -27,6 +27,7 @@ public class AuthController {
     @PostMapping("/register")
     public ResponseEntity<AuthResponse> register(
             @Valid @RequestBody RegisterRequest request) {
+    System.out.println(">>> REGISTER API HIT <<<");
 
         AuthResponse response = authService.register(request);
 
@@ -40,4 +41,5 @@ public ResponseEntity<AuthResponse> login(
 
     return ResponseEntity.ok(response);
 }
+
 }

@@ -1,13 +1,13 @@
 package com.devflow.auth.service;
 
-import java.util.Optional;
-
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.devflow.auth.client.UserClient;
 import com.devflow.auth.dto.AuthResponse;
 import com.devflow.auth.dto.LoginRequest;
 import com.devflow.auth.dto.RegisterRequest;
+import com.devflow.auth.dto.UserRequest;
 import com.devflow.auth.entity.User;
 import com.devflow.auth.jwt.JwtService;
 import com.devflow.auth.repository.UserRepository;
@@ -16,51 +16,67 @@ import com.devflow.auth.repository.UserRepository;
 public class AuthService {
 
     private final UserRepository userRepository;
-     private final PasswordEncoder passwordEncoder;
-private final JwtService jwtService;
+    private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
+    private final UserClient userClient;
 
-  public AuthService(UserRepository userRepository,
-                   PasswordEncoder passwordEncoder,
-                   JwtService jwtService) {
-    this.userRepository = userRepository;
-    this.passwordEncoder = passwordEncoder;
-    this.jwtService = jwtService;
-}
-   public AuthResponse register(RegisterRequest request) {
-
-    if (userRepository.existsByEmail(request.getEmail())) {
-        throw new RuntimeException("Email already exists");
+    public AuthService(UserRepository userRepository,
+                       PasswordEncoder passwordEncoder,
+                       JwtService jwtService,
+                       UserClient userClient) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
+        this.userClient = userClient;
     }
 
-    User user = new User();
-    user.setFullName(request.getFullName());
-    user.setEmail(request.getEmail());
+    public AuthResponse register(RegisterRequest request) {
 
-    // Store password as a BCrypt hash
-    user.setPassword(passwordEncoder.encode(request.getPassword()));
+        if (userRepository.findByEmail(request.getEmail()).isPresent()) {
+            throw new RuntimeException("Email already registered");
+        }
 
-    userRepository.save(user);
+        User user = new User();
+        user.setFullName(request.getName());   // <-- Missing line
 
-    return new AuthResponse("User registered successfully", null);
+        user.setEmail(request.getEmail());
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+        userRepository.save(user);
+
+        UserRequest userRequest = new UserRequest(
+                request.getName(),
+                request.getEmail()
+        );
+
+try {
+    System.out.println("Calling User Service...");
+    userClient.createUser(userRequest);
+    System.out.println("User Service call successful.");
+} catch (Exception e) {
+    e.printStackTrace();
+    return new AuthResponse("ERROR: " + e.getMessage(), null);
 }
-public AuthResponse login(LoginRequest request) {
-
-    Optional<User> optionalUser = userRepository.findByEmail(request.getEmail());
-
-    if (optionalUser.isEmpty()) {
-        throw new RuntimeException("Invalid email or password");
+        return new AuthResponse(
+                "Registration successful",
+                null
+        );
     }
 
-    User user = optionalUser.get();
+    public AuthResponse login(LoginRequest request) {
 
-    if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-        throw new RuntimeException("Invalid email or password");
+        User user = userRepository.findByEmail(request.getEmail())
+                .orElseThrow(() -> new RuntimeException("Invalid email or password"));
+
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+            throw new RuntimeException("Invalid email or password");
+        }
+
+        String token = jwtService.generateToken(user.getEmail());
+
+        return new AuthResponse(
+                "Login successful",
+                token
+        );
     }
-
-   String token = jwtService.generateToken(user.getEmail());
-
-return new AuthResponse("Login successful", token);
-}
-
-
 }
