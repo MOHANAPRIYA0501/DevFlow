@@ -18,18 +18,15 @@ public class CreateTaskRequest {
 
     private TaskStatus status;
 
-    private String userEmail;
 
     public CreateTaskRequest() {
     }
 
-    public CreateTaskRequest(String title, String description, TaskPriority priority, TaskStatus status,
-            String userEmail) {
+    public CreateTaskRequest(String title, String description, TaskPriority priority, TaskStatus status) {
         this.title = title;
         this.description = description;
         this.priority = priority;
         this.status = status;
-        this.userEmail = userEmail;
     }
 
     public String getTitle() {
@@ -64,11 +61,4 @@ public class CreateTaskRequest {
         this.status = status;
     }
 
-    public String getUserEmail() {
-        return userEmail;
-    }
-
-    public void setUserEmail(String userEmail) {
-        this.userEmail = userEmail;
-    }
 }

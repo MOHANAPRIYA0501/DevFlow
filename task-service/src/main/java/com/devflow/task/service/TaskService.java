@@ -8,8 +8,7 @@ import com.devflow.task.dto.UpdateTaskRequest;
 
 public interface TaskService {
 
-    TaskResponse createTask(CreateTaskRequest request);
-
+TaskResponse createTask(CreateTaskRequest request, String userEmail);
     List<TaskResponse> getAllTasks();
 
     TaskResponse getTaskById(Long id);

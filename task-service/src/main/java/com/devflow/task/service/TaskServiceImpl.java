@@ -23,14 +23,14 @@ public class TaskServiceImpl implements TaskService {
     }
 
     @Override
-    public TaskResponse createTask(CreateTaskRequest request) {
+    public TaskResponse createTask(CreateTaskRequest request, String userEmail) {
 
         Task task = new Task();
 
         task.setTitle(request.getTitle());
         task.setDescription(request.getDescription());
         task.setPriority(request.getPriority());
-        task.setUserEmail(request.getUserEmail());
+        task.setUserEmail(userEmail);
 
         if (request.getStatus() == null) {
             task.setStatus(TaskStatus.TODO);

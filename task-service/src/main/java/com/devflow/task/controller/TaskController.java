@@ -1,6 +1,7 @@
 package com.devflow.task.controller;
 
 import java.util.List;
+import org.springframework.security.core.Authentication;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,15 +32,16 @@ public class TaskController {
     public TaskController(TaskService taskService) {
         this.taskService = taskService;
     }
+@PostMapping
+public ResponseEntity<TaskResponse> createTask(
+        @Valid @RequestBody CreateTaskRequest request,
+        Authentication authentication) {
 
-    @PostMapping
-    public ResponseEntity<TaskResponse> createTask(
-            @Valid @RequestBody CreateTaskRequest request) {
+    String userEmail = authentication.getName();
 
-        return new ResponseEntity<>(
-                taskService.createTask(request),
-                HttpStatus.CREATED);
-    }
+    return ResponseEntity.status(HttpStatus.CREATED)
+            .body(taskService.createTask(request, userEmail));
+}
 
     @GetMapping
     public ResponseEntity<List<TaskResponse>> getAllTasks() {
