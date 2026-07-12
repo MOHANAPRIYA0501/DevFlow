@@ -1,13 +1,28 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import taskService from "../api/taskService";
 
-const TaskForm = ({ onTaskCreated }) => {
+const TaskForm = ({
+  onTaskCreated,
+  editingTask,
+  setEditingTask,
+}) => {
   const [task, setTask] = useState({
     title: "",
     description: "",
     priority: "MEDIUM",
     status: "TODO",
   });
+
+  useEffect(() => {
+    if (editingTask) {
+      setTask({
+        title: editingTask.title,
+        description: editingTask.description,
+        priority: editingTask.priority,
+        status: editingTask.status,
+      });
+    }
+  }, [editingTask]);
 
   const handleChange = (e) => {
     setTask({
@@ -16,33 +31,43 @@ const TaskForm = ({ onTaskCreated }) => {
     });
   };
 
+  const clearForm = () => {
+    setTask({
+      title: "",
+      description: "",
+      priority: "MEDIUM",
+      status: "TODO",
+    });
+
+    setEditingTask(null);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
-      await taskService.createTask(task);
+      if (editingTask) {
+        await taskService.updateTask(editingTask.id, task);
+        alert("Task updated successfully!");
+      } else {
+        await taskService.createTask(task);
+        alert("Task created successfully!");
+      }
 
-      alert("Task created successfully!");
-
-      setTask({
-        title: "",
-        description: "",
-        priority: "MEDIUM",
-        status: "TODO",
-      });
+      clearForm();
 
       if (onTaskCreated) {
         onTaskCreated();
       }
     } catch (error) {
-      console.error("Error creating task:", error);
-      alert("Failed to create task");
+      console.error(error);
+      alert("Operation failed");
     }
   };
 
   return (
     <form onSubmit={handleSubmit}>
-      <h2>Create Task</h2>
+      <h2>{editingTask ? "Update Task" : "Create Task"}</h2>
 
       <input
         type="text"
@@ -53,7 +78,8 @@ const TaskForm = ({ onTaskCreated }) => {
         required
       />
 
-      <br /><br />
+      <br />
+      <br />
 
       <textarea
         name="description"
@@ -63,7 +89,8 @@ const TaskForm = ({ onTaskCreated }) => {
         required
       />
 
-      <br /><br />
+      <br />
+      <br />
 
       <select
         name="priority"
@@ -75,7 +102,8 @@ const TaskForm = ({ onTaskCreated }) => {
         <option value="HIGH">HIGH</option>
       </select>
 
-      <br /><br />
+      <br />
+      <br />
 
       <select
         name="status"
@@ -87,9 +115,12 @@ const TaskForm = ({ onTaskCreated }) => {
         <option value="DONE">DONE</option>
       </select>
 
-      <br /><br />
+      <br />
+      <br />
 
-      <button type="submit">Create Task</button>
+      <button type="submit">
+        {editingTask ? "Update Task" : "Create Task"}
+      </button>
     </form>
   );
 };
