@@ -1,15 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import taskService from "../api/taskService";
+import TaskForm from "../components/TaskForm";
 
 const Dashboard = () => {
   const navigate = useNavigate();
 
   const [tasks, setTasks] = useState([]);
-
-  useEffect(() => {
-    fetchTasks();
-  }, []);
 
   const fetchTasks = async () => {
     try {
@@ -20,6 +17,10 @@ const Dashboard = () => {
     }
   };
 
+  useEffect(() => {
+    fetchTasks();
+  }, []);
+
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/login");
@@ -28,9 +29,12 @@ const Dashboard = () => {
   return (
     <div>
       <h1>Dashboard</h1>
-      <p>Welcome to DevFlow.</p>
 
       <button onClick={handleLogout}>Logout</button>
+
+      <hr />
+
+     <TaskForm onTaskCreated={fetchTasks} />
 
       <hr />
 
@@ -39,16 +43,28 @@ const Dashboard = () => {
       {tasks.length === 0 ? (
         <p>No tasks found.</p>
       ) : (
-        <ul>
-          {tasks.map((task) => (
-            <li key={task.id}>
-              <h3>{task.title}</h3>
-              <p>{task.description}</p>
-              <p>Priority: {task.priority}</p>
-              <p>Status: {task.status}</p>
-            </li>
-          ))}
-        </ul>
+        tasks.map((task) => (
+          <div
+            key={task.id}
+            style={{
+              border: "1px solid #ccc",
+              padding: "10px",
+              marginBottom: "10px",
+            }}
+          >
+            <h3>{task.title}</h3>
+
+            <p>{task.description}</p>
+
+            <p>
+              <strong>Priority:</strong> {task.priority}
+            </p>
+
+            <p>
+              <strong>Status:</strong> {task.status}
+            </p>
+          </div>
+        ))
       )}
     </div>
   );
