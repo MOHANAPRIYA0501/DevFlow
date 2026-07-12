@@ -1,58 +1,76 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import authService from "../api/authService";
 
-function Login() {
+const Login = () => {
+  const navigate = useNavigate();
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
-    const handleLogin = async (e) => {
-        e.preventDefault();
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-        try {
-            const response = await authService.login({
-    email,
-    password
-});
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-localStorage.setItem("token", response.data.token);
+    try {
+      const response = await authService.login(formData);
 
-console.log("Login successful");
+      localStorage.setItem("token", response.data.token);
 
-        } catch (error) {
-            console.log(error.response?.data || error.message);
-        }
-    };
+      alert("Login successful!");
 
+      navigate("/dashboard");
+    } catch (error) {
+      console.error(error);
+      alert("Invalid email or password");
+    }
+  };
 
-    return (
+  return (
+    <div>
+      <h2>Login</h2>
+
+      <form onSubmit={handleSubmit}>
         <div>
-            <h2>DevFlow Login</h2>
-
-            <form onSubmit={handleLogin}>
-
-                <input
-                    type="email"
-                    placeholder="Email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                />
-
-                <input
-                    type="password"
-                    placeholder="Password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                />
-
-                <button type="submit">
-                    Login
-                </button>
-
-            </form>
-
+          <label>Email</label>
+          <br />
+          <input
+            type="email"
+            name="email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+          />
         </div>
-    );
-}
+
+        <br />
+
+        <div>
+          <label>Password</label>
+          <br />
+          <input
+            type="password"
+            name="password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+          />
+        </div>
+
+        <br />
+
+        <button type="submit">Login</button>
+      </form>
+    </div>
+  );
+};
 
 export default Login;
