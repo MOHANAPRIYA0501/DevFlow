@@ -4,6 +4,7 @@ import taskService from "../api/taskService";
 import Navbar from "../components/Navbar";
 import TaskForm from "../components/TaskForm";
 import TaskList from "../components/TaskList";
+import toast from "react-hot-toast";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -47,11 +48,11 @@ const Dashboard = () => {
 
     try {
       await taskService.deleteTask(id);
-      alert("Task deleted successfully!");
+      toast.success("Task deleted successfully!");
       fetchTasks();
     } catch (error) {
       console.error("Error deleting task:", error);
-      alert("Failed to delete task");
+      toast.error("Failed to delete task");
     }
   };
 

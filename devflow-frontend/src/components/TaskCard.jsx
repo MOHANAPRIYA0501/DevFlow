@@ -12,7 +12,7 @@ const TaskCard = ({ task, onEdit, onDelete }) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md p-6 mb-5 hover:shadow-lg transition">
+    <div className="bg-white rounded-xl border border-gray-200 shadow-sm hover:shadow-gray-300 hover:shadow-lg transition-all duration-300 p-6 mb-5">
       <h3 className="text-xl font-bold text-gray-800">
         {task.title}
       </h3>

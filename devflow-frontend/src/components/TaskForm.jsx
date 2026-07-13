@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import taskService from "../api/taskService";
+import toast from "react-hot-toast";
 
 const TaskForm = ({
   onTaskCreated,
@@ -48,10 +49,10 @@ const TaskForm = ({
     try {
       if (editingTask) {
         await taskService.updateTask(editingTask.id, task);
-        alert("Task updated successfully!");
+       toast.success("Task updated successfully!");
       } else {
         await taskService.createTask(task);
-        alert("Task created successfully!");
+       toast.success("Task created successfully!");
       }
 
       clearForm();
@@ -61,7 +62,7 @@ const TaskForm = ({
       }
     } catch (error) {
       console.error(error);
-      alert("Operation failed");
+      toast.error("Operation failed!");
     }
   };
 
