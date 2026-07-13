@@ -38,14 +38,14 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-gray-100 to-slate-200 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-300 to-slate-200 flex items-center justify-center px-4">
 
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8">
+      <div className="w-full max-w-md bg-blue-100 rounded-3xl shadow-2xl p-8">
 
         {/* Logo */}
         <div className="text-center mb-8">
 
-          <div className="w-16 h-16 bg-indigo-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
+          <div className="w-14 h-16 bg-indigo-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
             <span className="text-white text-3xl font-bold">D</span>
           </div>
 
@@ -54,7 +54,7 @@ const Register = () => {
           </h1>
 
           <p className="text-slate-500 mt-2">
-            Build. Track. Deliver.
+            Build. Track. 
           </p>
 
         </div>
@@ -67,13 +67,13 @@ const Register = () => {
 
           <div>
             <label className="block text-sm font-medium text-slate-700 mb-2">
-              Full Name
+               Name
             </label>
 
             <input
               type="text"
               name="name"
-              placeholder="Enter your full name"
+              placeholder="Enter your name"
               value={formData.name}
               onChange={handleChange}
               required

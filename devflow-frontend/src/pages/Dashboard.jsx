@@ -4,6 +4,9 @@ import taskService from "../api/taskService";
 import Navbar from "../components/Navbar";
 import TaskForm from "../components/TaskForm";
 import TaskList from "../components/TaskList";
+import Spinner from "../components/Spinner";
+import EmptyState from "../components/EmptyState";
+import ConfirmationModal from "../components/ConfirmationModal";
 import toast from "react-hot-toast";
 
 const Dashboard = () => {
@@ -11,14 +14,25 @@ const Dashboard = () => {
 
   const [tasks, setTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
+  const [loading, setLoading] = useState(false);
+
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
 
   // Fetch all tasks
   const fetchTasks = async () => {
     try {
+      setLoading(true);
+
       const response = await taskService.getTasks();
       setTasks(response.data);
+
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      console.error("Failed to load tasks:", error);
+      toast.error("Failed to load tasks");
+
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,21 +52,28 @@ const Dashboard = () => {
     setEditingTask(task);
   };
 
-  // Delete Task
-  const handleDelete = async (id) => {
-    const confirmed = window.confirm(
-      "Are you sure you want to delete this task?"
-    );
+  // Open Delete Modal
+  const handleDelete = (id) => {
+    setTaskToDelete(id);
+    setShowDeleteModal(true);
+  };
 
-    if (!confirmed) return;
-
+  // Confirm Delete
+  const confirmDelete = async () => {
     try {
-      await taskService.deleteTask(id);
-      toast.success("Task deleted successfully!");
+      await taskService.deleteTask(taskToDelete);
+
+      toast.success("Task deleted successfully");
+
       fetchTasks();
+
     } catch (error) {
-      console.error("Error deleting task:", error);
+      console.error(error);
       toast.error("Failed to delete task");
+
+    } finally {
+      setShowDeleteModal(false);
+      setTaskToDelete(null);
     }
   };
 
@@ -61,6 +82,7 @@ const Dashboard = () => {
       <Navbar onLogout={handleLogout} />
 
       <div className="max-w-5xl mx-auto p-6">
+
         <TaskForm
           onTaskCreated={fetchTasks}
           editingTask={editingTask}
@@ -71,12 +93,32 @@ const Dashboard = () => {
           My Tasks
         </h2>
 
-        <TaskList
-          tasks={tasks}
-          onEdit={handleEdit}
-          onDelete={handleDelete}
-        />
+        {loading && <Spinner />}
+
+        {!loading && tasks.length === 0 && (
+          <EmptyState />
+        )}
+
+        {!loading && tasks.length > 0 && (
+          <TaskList
+            tasks={tasks}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        )}
+
       </div>
+
+      <ConfirmationModal
+        isOpen={showDeleteModal}
+        title="Delete Task"
+        message="Are you sure you want to delete this task? This action cannot be undone."
+        onConfirm={confirmDelete}
+        onCancel={() => {
+          setShowDeleteModal(false);
+          setTaskToDelete(null);
+        }}
+      />
     </>
   );
 };
