@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import taskService from "../api/taskService";
+import Navbar from "../components/Navbar";
 import TaskForm from "../components/TaskForm";
+import TaskCard from "../components/TaskCard";
+import TaskList from "../components/TaskList";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -30,86 +33,50 @@ const Dashboard = () => {
     navigate("/login");
   };
 
-  // Placeholder delete function
- const handleDelete = async (id) => {
-  const confirmed = window.confirm(
-    "Are you sure you want to delete this task?"
-  );
+  // Edit Task
+  const handleEdit = (task) => {
+    setEditingTask(task);
+  };
 
-  if (!confirmed) return;
+  // Delete Task
+  const handleDelete = async (id) => {
+    const confirmed = window.confirm(
+      "Are you sure you want to delete this task?"
+    );
 
-  try {
-    await taskService.deleteTask(id);
+    if (!confirmed) return;
 
-    alert("Task deleted successfully!");
-
-    fetchTasks();
-  } catch (error) {
-    console.error("Error deleting task:", error);
-    alert("Failed to delete task");
-  }
-};
+    try {
+      await taskService.deleteTask(id);
+      alert("Task deleted successfully!");
+      fetchTasks();
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      alert("Failed to delete task");
+    }
+  };
 
   return (
     <div>
-      <h1>Dashboard</h1>
-
-      <button onClick={handleLogout}>Logout</button>
+      <Navbar onLogout={handleLogout} />
 
       <hr />
-<TaskForm
-  onTaskCreated={fetchTasks}
-  editingTask={editingTask}
-  setEditingTask={setEditingTask}
-/>
+
+      <TaskForm
+        onTaskCreated={fetchTasks}
+        editingTask={editingTask}
+        setEditingTask={setEditingTask}
+      />
 
       <hr />
 
       <h2>My Tasks</h2>
 
-      {tasks.length === 0 ? (
-        <p>No tasks found.</p>
-      ) : (
-        tasks.map((task) => (
-          <div
-            key={task.id}
-            style={{
-              border: "1px solid #ccc",
-              padding: "10px",
-              marginBottom: "10px",
-            }}
-          >
-            <h3>{task.title}</h3>
-
-            <p>{task.description}</p>
-
-            <p>
-              <strong>Priority:</strong> {task.priority}
-            </p>
-
-            <p>
-              <strong>Status:</strong> {task.status}
-            </p>
-
-          <button
-  onClick={() => {
-    console.log("Edit clicked");
-    console.log(task);
-    setEditingTask(task);
-  }}
->
-  Edit
-</button>
-
-            <button
-              onClick={() => handleDelete(task.id)}
-              style={{ marginLeft: "10px" }}
-            >
-              Delete
-            </button>
-          </div>
-        ))
-      )}
+     <TaskList
+  tasks={tasks}
+  onEdit={handleEdit}
+  onDelete={handleDelete}
+/>
     </div>
   );
 };
