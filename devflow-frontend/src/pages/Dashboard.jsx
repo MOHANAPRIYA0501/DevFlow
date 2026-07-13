@@ -8,6 +8,8 @@ import Spinner from "../components/Spinner";
 import EmptyState from "../components/EmptyState";
 import ConfirmationModal from "../components/ConfirmationModal";
 import toast from "react-hot-toast";
+import DashboardTabs from "../components/DashboardTabs";
+import TaskSection from "../components/TaskSection";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -15,7 +17,7 @@ const Dashboard = () => {
   const [tasks, setTasks] = useState([]);
   const [editingTask, setEditingTask] = useState(null);
   const [loading, setLoading] = useState(false);
-
+const [activeTab, setActiveTab] = useState("tasks");
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [taskToDelete, setTaskToDelete] = useState(null);
 
@@ -83,30 +85,21 @@ const Dashboard = () => {
 
       <div className="max-w-5xl mx-auto p-6">
 
-        <TaskForm
-          onTaskCreated={fetchTasks}
-          editingTask={editingTask}
-          setEditingTask={setEditingTask}
-        />
-
-        <h2 className="text-2xl font-bold mt-8 mb-6">
-          My Tasks
-        </h2>
-
-        {loading && <Spinner />}
-
-        {!loading && tasks.length === 0 && (
-          <EmptyState />
-        )}
-
-        {!loading && tasks.length > 0 && (
-          <TaskList
-            tasks={tasks}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        )}
-
+           <DashboardTabs
+    activeTab={activeTab}
+    setActiveTab={setActiveTab}
+/>
+       {activeTab === "tasks" && (
+  <TaskSection
+    tasks={tasks}
+    loading={loading}
+    editingTask={editingTask}
+    setEditingTask={setEditingTask}
+    fetchTasks={fetchTasks}
+    handleEdit={handleEdit}
+    handleDelete={handleDelete}
+  />
+)}
       </div>
 
       <ConfirmationModal

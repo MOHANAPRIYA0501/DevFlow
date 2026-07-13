@@ -39,7 +39,10 @@ spring:
               uri: lb://TASK-SERVICE
               predicates:
                 - Path=/api/tasks/**
-
+            - id: note-service
+              uri: lb://NOTE-SERVICE
+              predicates:
+              - Path=/api/notes/**
 eureka:
   client:
     service-url:
