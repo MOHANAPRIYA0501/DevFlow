@@ -1,10 +1,10 @@
 package com.devflow.task.controller;
 
 import java.util.List;
-import org.springframework.security.core.Authentication;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -43,28 +43,36 @@ public ResponseEntity<TaskResponse> createTask(
             .body(taskService.createTask(request, userEmail));
 }
 
-    @GetMapping
-    public ResponseEntity<List<TaskResponse>> getAllTasks() {
-        return ResponseEntity.ok(taskService.getAllTasks());
-    }
+   @GetMapping
+public ResponseEntity<List<TaskResponse>> getAllTasks(Authentication authentication) {
 
-    @GetMapping("/{id}")
-    public ResponseEntity<TaskResponse> getTaskById(@PathVariable Long id) {
-        return ResponseEntity.ok(taskService.getTaskById(id));
-    }
+    String userEmail = authentication.getName();
+
+    return ResponseEntity.ok(taskService.getAllTasks(userEmail));
+}
+
+  @GetMapping("/{id}")
+public ResponseEntity<TaskResponse> getTaskById(
+        @PathVariable Long id,
+        Authentication authentication) {
+
+    return ResponseEntity.ok(
+            taskService.getTaskById(id, authentication.getName()));
+}
 
     @PutMapping("/{id}")
     public ResponseEntity<TaskResponse> updateTask(
             @PathVariable Long id,
-            @RequestBody UpdateTaskRequest request) {
+            @RequestBody UpdateTaskRequest request,
+            Authentication authentication) {
 
-        return ResponseEntity.ok(taskService.updateTask(id, request));
+        return ResponseEntity.ok(taskService.updateTask(id, request, authentication.getName()));
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteTask(@PathVariable Long id) {
+    public ResponseEntity<Void> deleteTask(@PathVariable Long id, Authentication authentication) {
 
-        taskService.deleteTask(id);
+        taskService.deleteTask(id, authentication.getName());
         return ResponseEntity.noContent().build();
     }
 }

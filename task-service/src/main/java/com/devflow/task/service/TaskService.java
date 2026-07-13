@@ -9,11 +9,12 @@ import com.devflow.task.dto.UpdateTaskRequest;
 public interface TaskService {
 
 TaskResponse createTask(CreateTaskRequest request, String userEmail);
-    List<TaskResponse> getAllTasks();
 
-    TaskResponse getTaskById(Long id);
+List<TaskResponse> getAllTasks(String userEmail);
 
-    TaskResponse updateTask(Long id, UpdateTaskRequest request);
+TaskResponse getTaskById(Long id, String userEmail);
 
-    void deleteTask(Long id);
+TaskResponse updateTask(Long id, UpdateTaskRequest request, String userEmail);
+
+void deleteTask(Long id, String userEmail);
 }

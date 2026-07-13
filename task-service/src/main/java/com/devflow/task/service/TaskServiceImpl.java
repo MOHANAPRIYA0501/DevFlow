@@ -46,61 +46,64 @@ public class TaskServiceImpl implements TaskService {
         return mapToResponse(savedTask);
     }
 
-   @Override
-public List<TaskResponse> getAllTasks() {
-
-    return taskRepository.findAll()
-            .stream()
-            .map(this::mapToResponse)
-            .toList();
-}
-@Override
-public TaskResponse getTaskById(Long id) {
-
-    Task task = taskRepository.findById(id)
-            .orElseThrow(() ->
-                    new TaskNotFoundException("Task not found with id: " + id));
-
-    return mapToResponse(task);
-}
-@Override
-public TaskResponse updateTask(Long id, UpdateTaskRequest request) {
-
-    Task task = taskRepository.findById(id)
-            .orElseThrow(() ->
-                    new TaskNotFoundException("Task not found with id: " + id));
-
-    if (request.getTitle() != null) {
-        task.setTitle(request.getTitle());
-    }
-
-    if (request.getDescription() != null) {
-        task.setDescription(request.getDescription());
-    }
-
-    if (request.getPriority() != null) {
-        task.setPriority(request.getPriority());
-    }
-
-    if (request.getStatus() != null) {
-        task.setStatus(request.getStatus());
-    }
-
-    task.setUpdatedAt(LocalDateTime.now());
-
-    Task updatedTask = taskRepository.save(task);
-
-    return mapToResponse(updatedTask);
-}
     @Override
-public void deleteTask(Long id) {
+    public List<TaskResponse> getAllTasks(String userEmail) {
 
-    Task task = taskRepository.findById(id)
-            .orElseThrow(() ->
-                    new TaskNotFoundException("Task not found with id: " + id));
+        return taskRepository.findByUserEmail(userEmail)
+                .stream()
+                .map(this::mapToResponse)
+                .toList();
+    }
 
-    taskRepository.delete(task);
-}
+    @Override
+    public TaskResponse getTaskById(Long id, String userEmail) {
+
+        Task task = taskRepository.findByIdAndUserEmail(id, userEmail)
+                .orElseThrow(() ->
+                        new TaskNotFoundException("Task not found with id: " + id));
+
+        return mapToResponse(task);
+    }
+
+    @Override
+    public TaskResponse updateTask(Long id, UpdateTaskRequest request, String userEmail) {
+
+        Task task = taskRepository.findByIdAndUserEmail(id, userEmail)
+                .orElseThrow(() ->
+                        new TaskNotFoundException("Task not found with id: " + id));
+
+        if (request.getTitle() != null) {
+            task.setTitle(request.getTitle());
+        }
+
+        if (request.getDescription() != null) {
+            task.setDescription(request.getDescription());
+        }
+
+        if (request.getPriority() != null) {
+            task.setPriority(request.getPriority());
+        }
+
+        if (request.getStatus() != null) {
+            task.setStatus(request.getStatus());
+        }
+
+        task.setUpdatedAt(LocalDateTime.now());
+
+        Task updatedTask = taskRepository.save(task);
+
+        return mapToResponse(updatedTask);
+    }
+
+    @Override
+    public void deleteTask(Long id, String userEmail) {
+
+        Task task = taskRepository.findByIdAndUserEmail(id, userEmail)
+                .orElseThrow(() ->
+                        new TaskNotFoundException("Task not found with id: " + id));
+
+        taskRepository.delete(task);
+    }
 
     private TaskResponse mapToResponse(Task task) {
 
