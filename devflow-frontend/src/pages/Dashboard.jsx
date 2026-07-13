@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import taskService from "../api/taskService";
 import Navbar from "../components/Navbar";
 import TaskForm from "../components/TaskForm";
-import TaskCard from "../components/TaskCard";
 import TaskList from "../components/TaskList";
 
 const Dashboard = () => {
@@ -57,27 +56,27 @@ const Dashboard = () => {
   };
 
   return (
-    <div>
+    <>
       <Navbar onLogout={handleLogout} />
 
-      <hr />
+      <div className="max-w-5xl mx-auto p-6">
+        <TaskForm
+          onTaskCreated={fetchTasks}
+          editingTask={editingTask}
+          setEditingTask={setEditingTask}
+        />
 
-      <TaskForm
-        onTaskCreated={fetchTasks}
-        editingTask={editingTask}
-        setEditingTask={setEditingTask}
-      />
+        <h2 className="text-2xl font-bold mt-8 mb-6">
+          My Tasks
+        </h2>
 
-      <hr />
-
-      <h2>My Tasks</h2>
-
-     <TaskList
-  tasks={tasks}
-  onEdit={handleEdit}
-  onDelete={handleDelete}
-/>
-    </div>
+        <TaskList
+          tasks={tasks}
+          onEdit={handleEdit}
+          onDelete={handleDelete}
+        />
+      </div>
+    </>
   );
 };
 
