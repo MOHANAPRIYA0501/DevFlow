@@ -27,7 +27,11 @@ const TaskSection = ({
       {loading && <Spinner />}
 
       {!loading && tasks.length === 0 && (
-        <EmptyState />
+        <EmptyState
+  icon="📋"
+  title="No Tasks Yet"
+  message="Create your first task to get started."
+/>
       )}
 
       {!loading && tasks.length > 0 && (
