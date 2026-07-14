@@ -10,6 +10,8 @@ import ConfirmationModal from "../components/ConfirmationModal";
 import DashboardTabs from "../components/DashboardTabs";
 import TaskSection from "../components/TaskSection";
 import NoteSection from "../components/NoteSection";
+import snippetService from "../api/snippetService";
+import SnippetSection from "../components/SnippetSection";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -23,6 +25,11 @@ const Dashboard = () => {
   const [notes, setNotes] = useState([]);
   const [editingNote, setEditingNote] = useState(null);
   const [loadingNotes, setLoadingNotes] = useState(false);
+
+  // Snippet State
+const [snippets, setSnippets] = useState([]);
+const [editingSnippet, setEditingSnippet] = useState(null);
+const [loadingSnippets, setLoadingSnippets] = useState(false);
 
   // Dashboard State
   const [activeTab, setActiveTab] = useState("tasks");
@@ -68,11 +75,28 @@ const [deleteType, setDeleteType] = useState("");
     }
   };
 
+  const fetchSnippets = async () => {
+  try {
+    setLoadingSnippets(true);
+
+    const response = await snippetService.getSnippets();
+
+    setSnippets(response.data);
+
+  } catch (error) {
+    console.error(error);
+    toast.error("Failed to load snippets");
+
+  } finally {
+    setLoadingSnippets(false);
+  }
+};
   // Load data
-  useEffect(() => {
-    fetchTasks();
-    fetchNotes();
-  }, []);
+useEffect(() => {
+  fetchTasks();
+  fetchNotes();
+  fetchSnippets();
+}, []);
 
   // Logout
   const handleLogout = () => {
@@ -93,20 +117,38 @@ const handleDelete = (id) => {
   setDeleteType("task");
   setShowDeleteModal(true);
 };
+
+const handleEditSnippet = (snippet) => {
+  setEditingSnippet(snippet);
+};
+
+const handleDeleteSnippet = (id) => {
+  setItemToDelete(id);
+  setDeleteType("snippet");
+  setShowDeleteModal(true);
+};
 const confirmDelete = async () => {
   try {
     if (deleteType === "task") {
       await taskService.deleteTask(itemToDelete);
       toast.success("Task deleted successfully");
       fetchTasks();
+
     } else if (deleteType === "note") {
       await noteService.deleteNote(itemToDelete);
       toast.success("Note deleted successfully");
       fetchNotes();
+
+    } else if (deleteType === "snippet") {
+      await snippetService.deleteSnippet(itemToDelete);
+      toast.success("Snippet deleted successfully");
+      fetchSnippets();
     }
+
   } catch (error) {
     console.error(error);
     toast.error("Delete failed");
+
   } finally {
     setShowDeleteModal(false);
     setItemToDelete(null);
@@ -161,15 +203,35 @@ const confirmDelete = async () => {
             handleDelete={handleDeleteNote}
           />
         )}
+
+        {activeTab === "snippets" && (
+  <SnippetSection
+    snippets={snippets}
+    loading={loadingSnippets}
+    editingSnippet={editingSnippet}
+    setEditingSnippet={setEditingSnippet}
+    fetchSnippets={fetchSnippets}
+    handleEdit={handleEditSnippet}
+    handleDelete={handleDeleteSnippet}
+  />
+)}
       </div>
 
-      <ConfirmationModal
+  <ConfirmationModal
   isOpen={showDeleteModal}
-  title={deleteType === "note" ? "Delete Note" : "Delete Task"}
+  title={
+    deleteType === "task"
+      ? "Delete Task"
+      : deleteType === "note"
+      ? "Delete Note"
+      : "Delete Snippet"
+  }
   message={
-    deleteType === "note"
+    deleteType === "task"
+      ? "Are you sure you want to delete this task? This action cannot be undone."
+      : deleteType === "note"
       ? "Are you sure you want to delete this note? This action cannot be undone."
-      : "Are you sure you want to delete this task? This action cannot be undone."
+      : "Are you sure you want to delete this snippet? This action cannot be undone."
   }
   onConfirm={confirmDelete}
   onCancel={() => {
