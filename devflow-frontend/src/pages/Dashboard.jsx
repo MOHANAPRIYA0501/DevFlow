@@ -187,11 +187,34 @@ const filteredNotes = notes.filter((note) =>
 const filteredSnippets = snippets.filter((snippet) =>
   (snippet.title || "").toLowerCase().includes(searchTerm.toLowerCase())
 );
-  return (
-    <>
+return (
+    <div
+      className="
+        min-h-screen
+
+        bg-gradient-to-br
+        from-black
+        via-zinc-950
+        to-neutral-950
+
+        text-white
+      "
+    >
+
       <Navbar onLogout={handleLogout} />
 
-<div className="max-w-5xl mx-auto p-6">
+      <div
+        className="
+          max-w-7xl
+          mx-auto
+
+          px-4
+          sm:px-6
+          lg:px-8
+
+          py-8
+        "
+      >
 
   <StatsCards
     tasks={tasks}
@@ -254,31 +277,31 @@ const filteredSnippets = snippets.filter((snippet) =>
   />
 )}
       </div>
-
   <ConfirmationModal
-  isOpen={showDeleteModal}
-  title={
-    deleteType === "task"
-      ? "Delete Task"
-      : deleteType === "note"
-      ? "Delete Note"
-      : "Delete Snippet"
-  }
-  message={
-    deleteType === "task"
-      ? "Are you sure you want to delete this task? This action cannot be undone."
-      : deleteType === "note"
-      ? "Are you sure you want to delete this note? This action cannot be undone."
-      : "Are you sure you want to delete this snippet? This action cannot be undone."
-  }
-  onConfirm={confirmDelete}
-  onCancel={() => {
-    setShowDeleteModal(false);
-    setItemToDelete(null);
-    setDeleteType("");
-  }}
-/>
-    </>
+    isOpen={showDeleteModal}
+    title={
+      deleteType === "task"
+        ? "Delete Task"
+        : deleteType === "note"
+        ? "Delete Note"
+        : "Delete Snippet"
+    }
+    message={
+      deleteType === "task"
+        ? "Are you sure you want to delete this task? This action cannot be undone."
+        : deleteType === "note"
+        ? "Are you sure you want to delete this note? This action cannot be undone."
+        : "Are you sure you want to delete this snippet? This action cannot be undone."
+    }
+    onConfirm={confirmDelete}
+    onCancel={() => {
+      setShowDeleteModal(false);
+      setItemToDelete(null);
+      setDeleteType("");
+    }}
+  />
+
+    </div>
   );
 };
 

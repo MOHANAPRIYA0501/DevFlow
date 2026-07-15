@@ -1,23 +1,83 @@
+import AuthLogo from "./AuthLogo";
+
 const Navbar = ({ onLogout }) => {
   return (
-    <nav className="sticky top-0 z-50 bg-slate-900 text-white shadow-md">
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <div className="text-center sm:text-left">
-          <h1 className="text-2xl font-bold tracking-wide">
-            DevFlow
-          </h1>
-          <p className="text-sm text-slate-300">
-            Developer Productivity Dashboard
-          </p>
-        </div>
+    <nav
+      className="
+        sticky
+        top-0
+        z-50
 
+        bg-black/40
+        backdrop-blur-xl
+
+        border-b
+        border-white/10
+
+        text-white
+      "
+    >
+
+      <div
+        className="
+          max-w-7xl
+          mx-auto
+
+          px-4
+          sm:px-6
+          lg:px-8
+
+          py-4
+
+          flex
+          items-center
+          justify-between
+        "
+      >
+
+        {/* Brand */}
+        <AuthLogo
+          size="small"
+          showSubtitle={false}
+        />
+
+
+        {/* Logout */}
         <button
           onClick={onLogout}
-          className="w-full sm:w-auto bg-red-500 hover:bg-red-600 px-5 py-2.5 rounded-lg font-medium transition duration-200"
+          className="
+            px-5
+            py-2.5
+
+            rounded-xl
+
+            font-semibold
+
+            text-black
+
+            bg-gradient-to-r
+            from-yellow-300
+            via-yellow-400
+            to-amber-500
+
+            hover:from-yellow-200
+            hover:to-amber-400
+
+            transition-all
+            duration-300
+
+            hover:scale-105
+
+            shadow-lg
+            hover:shadow-yellow-500/30
+          "
         >
           Logout
         </button>
+
+
       </div>
+
     </nav>
   );
 };

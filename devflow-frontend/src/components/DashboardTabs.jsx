@@ -6,22 +6,78 @@ const tabs = [
 
 const DashboardTabs = ({ activeTab, setActiveTab }) => {
   return (
-    <div className="mb-8 border-b border-gray-200">
-      <div className="flex flex-wrap gap-3 pb-3">
+    <div className="mb-8">
+
+      <div
+        className="
+          flex
+          flex-wrap
+          gap-3
+
+          p-2
+
+          rounded-2xl
+
+          bg-white/5
+
+          backdrop-blur-xl
+
+          border
+          border-white/10
+
+          w-fit
+        "
+      >
+
         {tabs.map((tab) => (
+
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id)}
-            className={`rounded-lg px-5 py-3 text-sm font-semibold transition-all duration-200 ${
-              activeTab === tab.id
-                ? "bg-indigo-600 text-white shadow-md"
-                : "bg-white text-gray-600 border border-gray-200 hover:bg-indigo-50 hover:text-indigo-600"
-            }`}
+            className={`
+              px-5
+              py-3
+
+              rounded-xl
+
+              text-sm
+              font-semibold
+
+              transition-all
+              duration-300
+
+              ${
+                activeTab === tab.id
+                  ? `
+                    bg-gradient-to-r
+                    from-yellow-300
+                    via-yellow-400
+                    to-amber-500
+
+                    text-black
+
+                    shadow-lg
+                    shadow-yellow-500/20
+
+                    scale-105
+                  `
+                  : `
+                    text-gray-400
+
+                    hover:text-white
+
+                    hover:bg-white/10
+                  `
+              }
+            `}
           >
             {tab.label}
           </button>
+
         ))}
+
       </div>
+
     </div>
   );
 };

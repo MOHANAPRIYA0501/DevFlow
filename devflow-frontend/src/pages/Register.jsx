@@ -2,6 +2,7 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import toast from "react-hot-toast";
 import authService from "../api/authService";
+import AuthLayout from "../components/AuthLayout";
 
 const Register = () => {
   const navigate = useNavigate();
@@ -37,105 +38,253 @@ const Register = () => {
     }
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex items-center justify-center px-4">
+ return (
+  <AuthLayout>
 
-      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8">
+    <div
+      className="
+        backdrop-blur-2xl
+        bg-white/5
+        border
+        border-white/10
 
-        {/* Logo */}
-        <div className="text-center mb-8">
+        rounded-3xl
+        p-8
 
-          <div className="w-14 h-16 bg-emerald-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
-            <span className="text-white text-3xl font-bold">D</span>
-          </div>
+        shadow-[0_20px_60px_rgba(0,0,0,0.5)]
 
-          <h1 className="text-3xl font-bold text-slate-900 mt-5">
-            DevFlow
-          </h1>
+        hover:border-yellow-400/30
 
-          <p className="text-slate-500 mt-2">
-           Start Building with DevFlow
-          </p>
+        transition-all
+        duration-300
+      "
+    >
 
-        </div>
+      <div className="mb-8">
 
-        <h2 className="text-2xl font-bold text-slate-900 mb-6 text-center">
-          Create Account
+        <span
+          className="
+            inline-flex
+            items-center
+
+            px-3
+            py-1
+
+            rounded-full
+
+            text-xs
+            font-medium
+
+            text-yellow-300
+
+            bg-yellow-400/10
+
+            border
+            border-yellow-400/20
+
+            mb-5
+          "
+        >
+          Join DevFlow
+        </span>
+
+
+        <h2 className="text-3xl font-bold text-white">
+          Create your workspace
         </h2>
 
-        <form onSubmit={handleSubmit} className="space-y-5">
 
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-               Name
-            </label>
-
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Email
-            </label>
-
-            <input
-              type="email"
-              name="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
-            />
-          </div>
-
-          <div>
-            <label className="block text-sm font-medium text-slate-700 mb-2">
-              Password
-            </label>
-
-            <input
-              type="password"
-              name="password"
-              placeholder="Create a password"
-              value={formData.password}
-              onChange={handleChange}
-              required
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition duration-300"
-          >
-            Create Account
-          </button>
-
-          <p className="text-center text-slate-600">
-            Already have an account?{" "}
-            <Link
-              to="/login"
-              className="text-emerald-600 font-semibold hover:text-emerald-700"
-            >
-              Sign In
-            </Link>
-          </p>
-
-        </form>
+        <p className="text-gray-400 mt-2">
+          Build, organize and manage your developer workflow.
+        </p>
 
       </div>
 
+
+      <form onSubmit={handleSubmit} className="space-y-5">
+
+
+        <div>
+
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Name
+          </label>
+
+
+          <input
+            type="text"
+            name="name"
+            placeholder="Enter your name"
+            value={formData.name}
+            onChange={handleChange}
+            required
+            className="
+              w-full
+              rounded-xl
+              px-4
+              py-3
+
+              bg-white/5
+              border
+              border-white/10
+
+              text-white
+              placeholder:text-gray-500
+
+              focus:outline-none
+              focus:border-yellow-400
+
+              focus:ring-2
+              focus:ring-yellow-400/20
+
+              transition
+            "
+          />
+
+        </div>
+
+
+
+        <div>
+
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Email
+          </label>
+
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Enter your email"
+            value={formData.email}
+            onChange={handleChange}
+            required
+            className="
+              w-full
+              rounded-xl
+              px-4
+              py-3
+
+              bg-white/5
+              border
+              border-white/10
+
+              text-white
+              placeholder:text-gray-500
+
+              focus:outline-none
+              focus:border-yellow-400
+
+              focus:ring-2
+              focus:ring-yellow-400/20
+
+              transition
+            "
+          />
+
+        </div>
+
+
+
+        <div>
+
+          <label className="block text-sm font-medium text-gray-300 mb-2">
+            Password
+          </label>
+
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Create a password"
+            value={formData.password}
+            onChange={handleChange}
+            required
+            className="
+              w-full
+              rounded-xl
+              px-4
+              py-3
+
+              bg-white/5
+              border
+              border-white/10
+
+              text-white
+              placeholder:text-gray-500
+
+              focus:outline-none
+              focus:border-yellow-400
+
+              focus:ring-2
+              focus:ring-yellow-400/20
+
+              transition
+            "
+          />
+
+        </div>
+
+
+
+        <button
+          type="submit"
+          className="
+            w-full
+            py-3
+            rounded-xl
+
+            font-semibold
+            text-black
+
+            bg-gradient-to-r
+            from-yellow-300
+            via-yellow-400
+            to-amber-500
+
+            hover:from-yellow-200
+            hover:to-amber-400
+
+            transition-all
+            duration-300
+
+            hover:scale-[1.02]
+            active:scale-95
+
+            shadow-lg
+            hover:shadow-yellow-500/30
+          "
+        >
+          Create Account
+        </button>
+
+
+
+        <p className="text-center text-gray-400">
+
+          Already have an account?{" "}
+
+          <Link
+            to="/login"
+            className="
+              text-yellow-400
+              font-semibold
+              hover:text-yellow-300
+              transition
+            "
+          >
+            Sign In
+          </Link>
+
+        </p>
+
+
+      </form>
+
     </div>
-  );
+
+  </AuthLayout>
+);
 };
 
 export default Register;

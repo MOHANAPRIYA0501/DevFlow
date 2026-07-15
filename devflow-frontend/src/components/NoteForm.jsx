@@ -50,12 +50,36 @@ const NoteForm = ({ onNoteCreated, editingNote, setEditingNote }) => {
   };
 
   return (
-    <div className="bg-white shadow-md rounded-xl p-6">
-      <h2 className="text-xl font-bold mb-4">
-        {editingNote ? "Edit Note" : "Create Note"}
-      </h2>
+  <div
+    className="
+      bg-white/5
+      backdrop-blur-xl
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      border
+      border-white/10
+
+      rounded-3xl
+
+      shadow-[0_20px_40px_rgba(0,0,0,0.25)]
+
+      p-6
+    "
+  >
+
+    <h2 className="text-2xl font-bold text-white mb-6">
+      {editingNote ? "Edit Note" : "Create Note"}
+    </h2>
+
+
+    <form onSubmit={handleSubmit} className="space-y-5">
+
+
+      <div>
+
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Title
+        </label>
+
         <input
           type="text"
           name="title"
@@ -63,8 +87,46 @@ const NoteForm = ({ onNoteCreated, editingNote, setEditingNote }) => {
           value={note.title}
           onChange={handleChange}
           required
-          className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+
+          className="
+            w-full
+
+            rounded-xl
+
+            px-4
+            py-3
+
+            bg-black/30
+
+            border
+            border-white/10
+
+            text-white
+
+            placeholder:text-gray-500
+
+            focus:outline-none
+
+            focus:border-yellow-400
+
+            focus:ring-4
+
+            focus:ring-yellow-400/20
+
+            transition
+          "
         />
+
+      </div>
+
+
+
+      <div>
+
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Content
+        </label>
+
 
         <textarea
           name="content"
@@ -72,18 +134,76 @@ const NoteForm = ({ onNoteCreated, editingNote, setEditingNote }) => {
           value={note.content}
           onChange={handleChange}
           rows="6"
-          className="w-full border rounded-lg p-3 focus:outline-none focus:ring-2 focus:ring-indigo-500"
+
+          className="
+            w-full
+
+            rounded-xl
+
+            px-4
+            py-3
+
+            bg-black/30
+
+            border
+            border-white/10
+
+            text-white
+
+            placeholder:text-gray-500
+
+            resize-none
+
+            focus:outline-none
+
+            focus:border-yellow-400
+
+            focus:ring-4
+
+            focus:ring-yellow-400/20
+
+            transition
+          "
         />
 
-        <button
-          type="submit"
-          className="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-lg transition"
-        >
-          {editingNote ? "Update Note" : "Create Note"}
-        </button>
-      </form>
-    </div>
-  );
+      </div>
+
+
+
+      <button
+        type="submit"
+
+        className="
+          px-6
+          py-3
+
+          rounded-xl
+
+          font-bold
+
+          text-black
+
+          bg-gradient-to-r
+          from-yellow-300
+          to-amber-500
+
+          hover:scale-105
+
+          transition-all
+
+          shadow-lg
+          shadow-yellow-500/20
+        "
+      >
+        {editingNote ? "Update Note" : "Create Note"}
+
+      </button>
+
+
+    </form>
+
+  </div>
+);
 };
 
 export default NoteForm;
