@@ -12,6 +12,8 @@ import TaskSection from "../components/TaskSection";
 import NoteSection from "../components/NoteSection";
 import snippetService from "../api/snippetService";
 import SnippetSection from "../components/SnippetSection";
+import StatsCards from "../components/StatsCards";
+import SearchBar from "../components/SearchBar";
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -39,6 +41,7 @@ const [loadingSnippets, setLoadingSnippets] = useState(false);
   const [itemToDelete, setItemToDelete] = useState(null);
 const [deleteType, setDeleteType] = useState("");
 
+const [searchTerm, setSearchTerm] = useState("");
   // =========================
   // TASKS
   // =========================
@@ -47,8 +50,11 @@ const [deleteType, setDeleteType] = useState("");
     try {
       setLoading(true);
 
-      const response = await taskService.getTasks();
-      setTasks(response.data);
+     const response = await taskService.getTasks();
+
+console.log("API Response:", response.data);
+
+setTasks(response.data);
     } catch (error) {
       console.error("Failed to load tasks:", error);
       toast.error("Failed to load tasks");
@@ -56,7 +62,6 @@ const [deleteType, setDeleteType] = useState("");
       setLoading(false);
     }
   };
-
   // =========================
   // NOTES
   // =========================
@@ -169,12 +174,42 @@ const confirmDelete = async () => {
   setDeleteType("note");
   setShowDeleteModal(true);
 };
+ 
 
+const filteredTasks = tasks.filter((task) =>
+  (task.title || "").toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+const filteredNotes = notes.filter((note) =>
+  (note.title || "").toLowerCase().includes(searchTerm.toLowerCase())
+);
+
+const filteredSnippets = snippets.filter((snippet) =>
+  (snippet.title || "").toLowerCase().includes(searchTerm.toLowerCase())
+);
   return (
     <>
       <Navbar onLogout={handleLogout} />
 
-      <div className="max-w-5xl mx-auto p-6">
+<div className="max-w-5xl mx-auto p-6">
+
+  <StatsCards
+    tasks={tasks}
+    notes={notes}
+    snippets={snippets}
+  />
+
+  <SearchBar
+    value={searchTerm}
+    onChange={setSearchTerm}
+    placeholder={
+      activeTab === "tasks"
+        ? "Search tasks..."
+        : activeTab === "notes"
+        ? "Search notes..."
+        : "Search snippets..."
+    }
+  />
         <DashboardTabs
           activeTab={activeTab}
           setActiveTab={setActiveTab}
@@ -182,7 +217,7 @@ const confirmDelete = async () => {
 
         {activeTab === "tasks" && (
           <TaskSection
-            tasks={tasks}
+            tasks={filteredTasks}
             loading={loading}
             editingTask={editingTask}
             setEditingTask={setEditingTask}
@@ -194,7 +229,7 @@ const confirmDelete = async () => {
 
         {activeTab === "notes" && (
           <NoteSection
-            notes={notes}
+              notes={filteredNotes}
             loading={loadingNotes}
             editingNote={editingNote}
             setEditingNote={setEditingNote}
@@ -206,8 +241,8 @@ const confirmDelete = async () => {
 
         {activeTab === "snippets" && (
   <SnippetSection
-    snippets={snippets}
-    loading={loadingSnippets}
+  snippets={filteredSnippets}
+      loading={loadingSnippets}
     editingSnippet={editingSnippet}
     setEditingSnippet={setEditingSnippet}
     fetchSnippets={fetchSnippets}
