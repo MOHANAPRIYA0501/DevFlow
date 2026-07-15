@@ -11,6 +11,7 @@ const NoteSection = ({
   fetchNotes,
   handleEdit,
   handleDelete,
+  searchTerm,
 }) => {
   return (
     <>
@@ -27,10 +28,18 @@ const NoteSection = ({
     {loading ? (
     <Spinner />
   ) : notes.length === 0 ? (
-    <EmptyState
+   <EmptyState
   icon="📝"
-  title="No Notes Yet"
-  message="Create your first note to organize your ideas."
+  title={
+    searchTerm
+      ? "No Notes Match Your Search"
+      : "No Notes Yet"
+  }
+  message={
+    searchTerm
+      ? "Try searching with a different keyword."
+      : "Create your first note to get started."
+  }
 />
   ) : (
     <NoteList

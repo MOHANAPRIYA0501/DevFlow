@@ -9,17 +9,17 @@ const NoteCard = ({ note, onEdit, onDelete }) => {
         {note.content}
       </p>
 
-      <div className="flex gap-3 mt-5">
+      <div className="flex flex-col sm:flex-row gap-3 mt-5">
         <button
           onClick={() => onEdit(note)}
-          className="bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition"
+          className="w-full sm:w-auto bg-yellow-500 hover:bg-yellow-600 text-white px-4 py-2 rounded-lg transition"
         >
           Edit
         </button>
 
         <button
           onClick={() => onDelete(note.id)}
-          className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition"
+          className="w-full sm:w-auto bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition"
         >
           Delete
         </button>

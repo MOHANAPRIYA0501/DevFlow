@@ -38,14 +38,14 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-300 to-slate-200 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800 flex items-center justify-center px-4">
 
-      <div className="w-full max-w-md bg-blue-100 rounded-3xl shadow-2xl p-8">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8">
 
         {/* Logo */}
         <div className="text-center mb-8">
 
-          <div className="w-14 h-16 bg-indigo-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
+          <div className="w-14 h-16 bg-emerald-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
             <span className="text-white text-3xl font-bold">D</span>
           </div>
 
@@ -54,7 +54,7 @@ const Register = () => {
           </h1>
 
           <p className="text-slate-500 mt-2">
-            Build. Track. 
+           Start Building with DevFlow
           </p>
 
         </div>
@@ -93,7 +93,7 @@ const Register = () => {
               value={formData.email}
               onChange={handleChange}
               required
-              className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+              className="w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
             />
           </div>
 
@@ -115,7 +115,7 @@ const Register = () => {
 
           <button
             type="submit"
-            className="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition duration-300"
+            className="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl font-semibold shadow-md hover:shadow-lg transition duration-300"
           >
             Create Account
           </button>
@@ -124,7 +124,7 @@ const Register = () => {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="text-indigo-600 font-semibold hover:text-indigo-700"
+              className="text-emerald-600 font-semibold hover:text-emerald-700"
             >
               Sign In
             </Link>

@@ -14,18 +14,18 @@ const SnippetCard = ({ snippet, onEdit, onDelete }) => {
           </span>
         </div>
 
-        <div className="space-x-2">
+       <div className="flex flex-col sm:flex-row gap-2">
 
           <button
             onClick={() => onEdit(snippet)}
-            className="px-3 py-1 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white transition"
+            className="w-full sm:w-auto px-3 py-1 rounded-lg bg-yellow-500 hover:bg-yellow-600 text-white transition"
           >
             Edit
           </button>
 
           <button
             onClick={() => onDelete(snippet.id)}
-            className="px-3 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-white transition"
+            className="w-full sm:w-auto px-3 py-1 rounded-lg bg-red-500 hover:bg-red-600 text-white transition"
           >
             Delete
           </button>
@@ -39,8 +39,7 @@ const SnippetCard = ({ snippet, onEdit, onDelete }) => {
         </p>
       )}
 
-      <pre className="mt-4 bg-gray-900 text-green-400 rounded-lg p-4 overflow-x-auto text-sm">
-        <code>{snippet.code}</code>
+<pre className="mt-4 bg-gray-900 text-green-400 rounded-xl p-4 overflow-x-auto text-sm shadow-inner">        <code>{snippet.code}</code>
       </pre>
 
     </div>

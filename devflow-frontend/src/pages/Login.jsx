@@ -36,14 +36,14 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-300 to-slate-200 flex items-center justify-center px-4">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-800">
 
-      <div className="w-full max-w-md bg-blue-200 rounded-3xl shadow-2xl p-8">
+      <div className="w-full max-w-md bg-white rounded-3xl shadow-2xl p-8">
 
         {/* Logo */}
         <div className="text-center mb-8">
 
-          <div className="w-16 h-16 bg-indigo-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
+          <div className="w-16 h-16 bg-blue-600 rounded-2xl mx-auto flex items-center justify-center shadow-lg">
             <span className="text-white text-3xl font-bold">D</span>
           </div>
 
@@ -52,7 +52,7 @@ const Login = () => {
           </h1>
 
           <p className="text-slate-500 mt-2">
-            Build. Track. Deliver.
+          Secure Developer Workspace
           </p>
 
         </div>

@@ -11,6 +11,7 @@ const SnippetSection = ({
   fetchSnippets,
   handleEdit,
   handleDelete,
+  searchTerm,
 }) => {
   return (
     <>
@@ -27,11 +28,19 @@ const SnippetSection = ({
       {loading ? (
         <Spinner />
       ) : snippets.length === 0 ? (
-        <EmptyState
-          icon="💻"
-          title="No Snippets Yet"
-          message="Save your first code snippet to get started."
-        />
+       <EmptyState
+  icon="💻"
+  title={
+    searchTerm
+      ? "No Snippets Match Your Search"
+      : "No Snippets Yet"
+  }
+  message={
+    searchTerm
+      ? "Try searching with a different keyword."
+      : "Save your first code snippet to get started."
+  }
+/>
       ) : (
         <SnippetList
           snippets={snippets}

@@ -217,14 +217,15 @@ const filteredSnippets = snippets.filter((snippet) =>
 
         {activeTab === "tasks" && (
           <TaskSection
-            tasks={filteredTasks}
-            loading={loading}
-            editingTask={editingTask}
-            setEditingTask={setEditingTask}
-            fetchTasks={fetchTasks}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-          />
+  tasks={filteredTasks}
+  loading={loading}
+  editingTask={editingTask}
+  setEditingTask={setEditingTask}
+  fetchTasks={fetchTasks}
+  handleEdit={handleEdit}
+  handleDelete={handleDelete}
+  searchTerm={searchTerm}
+/>
         )}
 
         {activeTab === "notes" && (
@@ -236,6 +237,7 @@ const filteredSnippets = snippets.filter((snippet) =>
             fetchNotes={fetchNotes}
             handleEdit={handleEditNote}
             handleDelete={handleDeleteNote}
+            searchTerm={searchTerm}
           />
         )}
 
@@ -248,6 +250,7 @@ const filteredSnippets = snippets.filter((snippet) =>
     fetchSnippets={fetchSnippets}
     handleEdit={handleEditSnippet}
     handleDelete={handleDeleteSnippet}
+    searchTerm={searchTerm}
   />
 )}
       </div>

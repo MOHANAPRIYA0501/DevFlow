@@ -11,6 +11,7 @@ const TaskSection = ({
   fetchTasks,
   handleEdit,
   handleDelete,
+  searchTerm,
 }) => {
   return (
     <>
@@ -28,10 +29,18 @@ const TaskSection = ({
 
       {!loading && tasks.length === 0 && (
         <EmptyState
-  icon="📋"
-  title="No Tasks Yet"
-  message="Create your first task to get started."
-/>
+          icon="📋"
+          title={
+            searchTerm
+              ? "No Tasks Match Your Search"
+              : "No Tasks Yet"
+          }
+          message={
+            searchTerm
+              ? "Try searching with a different keyword."
+              : "Create your first task to get started."
+          }
+        />
       )}
 
       {!loading && tasks.length > 0 && (
