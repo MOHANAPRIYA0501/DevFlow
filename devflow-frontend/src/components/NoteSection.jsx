@@ -15,13 +15,23 @@ const NoteSection = ({
 }) => {
   return (
     <>
+      <div className="space-y-8"></div>
       <NoteForm
         editingNote={editingNote}
         setEditingNote={setEditingNote}
         onNoteCreated={fetchNotes}
       />
 
-<h2 className="text-2xl font-bold mt-8 mb-6">
+<h2
+  className="
+    text-2xl
+    font-bold
+    text-white
+
+    mt-10
+    mb-6
+  "
+>
   My Notes
 </h2>
 

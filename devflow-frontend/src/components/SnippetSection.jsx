@@ -15,15 +15,25 @@ const SnippetSection = ({
 }) => {
   return (
     <>
+      <div className="space-y-8"></div>
       <SnippetForm
         editingSnippet={editingSnippet}
         setEditingSnippet={setEditingSnippet}
         onSnippetCreated={fetchSnippets}
       />
 
-      <h2 className="text-2xl font-bold mt-8 mb-6">
-        My Snippets
-      </h2>
+     <h2
+  className="
+    text-2xl
+    font-bold
+    text-white
+
+    mt-10
+    mb-6
+  "
+>
+  My Snippets
+</h2>
 
       {loading ? (
         <Spinner />

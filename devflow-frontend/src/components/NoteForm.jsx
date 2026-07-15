@@ -58,11 +58,16 @@ const NoteForm = ({ onNoteCreated, editingNote, setEditingNote }) => {
       border
       border-white/10
 
-      rounded-3xl
+     rounded-3xl
 
-      shadow-[0_20px_40px_rgba(0,0,0,0.25)]
+shadow-[0_20px_40px_rgba(0,0,0,0.25)]
 
-      p-6
+p-6
+
+hover:border-yellow-400/30
+
+transition-all
+duration-300
     "
   >
 
@@ -173,27 +178,30 @@ const NoteForm = ({ onNoteCreated, editingNote, setEditingNote }) => {
       <button
         type="submit"
 
-        className="
-          px-6
-          py-3
+       className="
+  w-full
 
-          rounded-xl
+  py-3
 
-          font-bold
+  rounded-xl
 
-          text-black
+  font-bold
 
-          bg-gradient-to-r
-          from-yellow-300
-          to-amber-500
+  text-black
 
-          hover:scale-105
+  bg-gradient-to-r
+  from-yellow-300
+  to-amber-500
 
-          transition-all
+  hover:scale-[1.02]
 
-          shadow-lg
-          shadow-yellow-500/20
-        "
+  transition-all
+
+  shadow-lg
+
+  shadow-yellow-500/20
+"
+        
       >
         {editingNote ? "Update Note" : "Create Note"}
 

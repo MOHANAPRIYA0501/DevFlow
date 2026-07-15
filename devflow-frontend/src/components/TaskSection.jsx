@@ -15,15 +15,26 @@ const TaskSection = ({
 }) => {
   return (
     <>
+    <div className="space-y-8"></div>
       <TaskForm
         onTaskCreated={fetchTasks}
         editingTask={editingTask}
         setEditingTask={setEditingTask}
       />
 
-      <h2 className="text-2xl font-bold mt-8 mb-6">
-        My Tasks
-      </h2>
+     <h2
+  className="
+    text-2xl
+    font-bold
+
+    text-white
+
+    mt-10
+    mb-6
+  "
+>
+  My Tasks
+</h2>
 
       {loading && <Spinner />}
 
