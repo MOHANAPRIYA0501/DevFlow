@@ -470,3 +470,13 @@ This project demonstrates:
 Developer Portfolio Project
 
 Built with Java + Spring Boot + React
+
+## Screenshots
+
+### Login
+
+![Login](screenshots/login.png)
+
+### Dashboard
+
+![Dashboard](screenshots/dashboard.png)
