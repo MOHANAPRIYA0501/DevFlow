@@ -471,12 +471,28 @@ Developer Portfolio Project
 
 Built with Java + Spring Boot + React
 
-## Screenshots
+# 🖥️ Screenshots
 
-### Login
+## Login
 
 ![Login](screenshots/login.png)
 
-### Dashboard
+## Register
+
+![Register](screenshots/register.png)
+
+## Dashboard
 
 ![Dashboard](screenshots/dashboard.png)
+
+## Tasks
+
+![Tasks](screenshots/Task.png)
+
+## Notes
+
+![Notes](screenshots/notes.png)
+
+## Snippets
+
+![Snippets](screenshots/Snippet.png)
